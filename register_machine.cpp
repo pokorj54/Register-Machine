@@ -46,7 +46,7 @@ bool register_machine::do_step(){
 void  register_machine::calculate(){
     while(do_step());
     for(reg_val val : registers){
-        std::cout << "v " <<  val << std::endl;
+        std::cout <<  val << std::endl;
     }
 }
 
