@@ -20,7 +20,7 @@ struct command{
 
 struct register_machine
 {
-    register_machine(int n, const std::vector<command> & commands);
+    register_machine(const std::vector<command> & commands, const std::vector<reg_val> & registers);
 
     bool do_step();
 
@@ -32,4 +32,6 @@ struct register_machine
         size_t PC;
 };
 
-register_machine read_program(std::istream & is);
+std::vector<command> read_program(std::istream & is);
+
+std::vector<reg_val> initialize_registers(std::istream & is);

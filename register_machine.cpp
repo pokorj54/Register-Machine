@@ -1,6 +1,7 @@
 #include "register_machine.hpp"
 
 #include <iostream>
+#include <vector>
 #include <unordered_map>
 #include <string>
 
@@ -9,8 +10,16 @@ T max(T a, T b){
     return ( a < b) ? b : a;
 }
 
-register_machine::register_machine(int n, const std::vector<command> & commands)
-: commands(commands), registers(n), PC(0){}
+register_machine::register_machine(const std::vector<command> & commands, const std::vector<reg_val> & registers)
+: commands(commands), registers(registers), PC(0){
+    reg_val highest_reg_name;
+    for(command c : commands){
+        if(c.instr != JMP){
+            highest_reg_name = max(highest_reg_name, c.reg);
+        }
+    }
+    //this->registers.reserve(max(highest_reg_name + 1, registers.size()));
+}
 
 
 bool register_machine::do_step(){
@@ -46,13 +55,13 @@ bool register_machine::do_step(){
 void  register_machine::calculate(){
     while(do_step());
     for(reg_val val : registers){
-        std::cout <<  val << std::endl;
+        std::cout <<  val << " ";
     }
+    std::cout << std::endl;
 }
 
 
-register_machine read_program(std::istream & is){
-    size_t highest_reg = 0;
+std::vector<command> read_program(std::istream & is){
     std::vector<command> commands;
     while(is.good()){
         std::string instr_str;
@@ -67,11 +76,22 @@ register_machine read_program(std::istream & is){
             {"p",       PRINT},
             {"j",       JMP}
         });
-        instruction instr = str_to_instruction[instr_str];
+        instruction instr = str_to_instruction.at(instr_str);
         commands.emplace_back(instr, reg);
-        if(instr != JMP){
-            highest_reg = max(highest_reg, reg);
-        }
     }
-    return register_machine(highest_reg + 1, commands);
+    return commands;
+}
+
+
+std::vector<reg_val> initialize_registers(std::istream & is){
+    std::vector<reg_val> result;
+    while(true){
+        reg_val val;
+        is >> val;
+        if(!is.good()){
+            break;
+        }
+        result.push_back(val);
+    }
+    return result;
 }
