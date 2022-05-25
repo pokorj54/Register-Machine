@@ -34,10 +34,11 @@ bool register_machine::do_step(){
         registers[reg] += 1;
         break;
     case DEC:
-        registers[reg] = max(registers[reg] - 1, (reg_val)0);
         if(registers[reg] == 0){
-            ++PC; 
+            PC += 2;
+            return true;
         }
+        registers[reg] = registers[reg] - 1;
         break;
     case JMP:
         PC += reg;
@@ -74,7 +75,11 @@ std::vector<command> read_program(std::istream & is){
             {"i",       INC},
             {"d",       DEC},
             {"p",       PRINT},
-            {"j",       JMP}
+            {"j",       JMP},
+            {"inc",       INC},
+            {"dec",       DEC},
+            {"print",       PRINT},
+            {"jmp",       JMP}
         });
         instruction instr = str_to_instruction.at(instr_str);
         commands.emplace_back(instr, reg);
