@@ -56,7 +56,7 @@ def handle_labels(program):
             label = line[line.index('>') + 1:]
             abs_pos = labels[label.strip()]
             rel_jmp = abs_pos-id
-            line = line[0: char_index] + str(rel_jmp)
+            line = line[0: char_index] + str(rel_jmp) + '\n'
         without_labels[id] = line
     return without_labels
 
