@@ -143,5 +143,37 @@ test("pow_d", [2, 4], [ANY, ANY, 16])
 test("pow_d", [3, 3], [ANY, ANY, 27])
 test("pow_d", [5, 3], [ANY, ANY, 125])
 
+
+test("sub", [0, 0], [0, 0, 0])
+test("sub", [5, 0], [5, 0, 5])
+test("sub", [0, 10], [0, 10, 0])
+test("sub", [7, 6], [7, 6, 1])
+test("sub", [2, 2], [2, 2, 0])
+test("sub", [5, 8], [5, 8, 0])
+
+
+test("diff", [0, 0], [0, 0, 0])
+test("diff", [5, 0], [5, 0, 5])
+test("diff", [0, 10], [0, 10, 10])
+test("diff", [7, 6], [7, 6, 1])
+test("diff", [2, 2], [2, 2, 0])
+test("diff", [5, 8], [5, 8, 3])
+
+
+test("max", [0, 0], [0, 0, 0])
+test("max", [5, 0], [5, 0, 5])
+test("max", [0, 10], [0, 10, 10])
+test("max", [7, 6], [7, 6, 7])
+test("max", [2, 2], [2, 2, 2])
+test("max", [5, 8], [5, 8, 8])
+
+
+test("min", [0, 0], [0, 0, 0])
+test("min", [5, 0], [5, 0, 0])
+test("min", [0, 10], [0, 10, 0])
+test("min", [7, 6], [7, 6, 6])
+test("min", [2, 2], [2, 2, 2])
+test("min", [5, 8], [5, 8, 5])
+
 color = COLOR.GREEN if TESTS_COUNT == SUCCESS_COUNT else COLOR.RED
 color_print(color, '{}/{} tests correct'.format(SUCCESS_COUNT, TESTS_COUNT))
