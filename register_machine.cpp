@@ -23,15 +23,17 @@ std::string instruction_to_string(instruction i){
     }
 }
 
-register_machine::register_machine(const std::vector<command> & commands, const std::vector<reg_val> & registers)
-: commands(commands), registers(registers), PC(0){
-    reg_val highest_reg_name;
+register_machine::register_machine(const std::vector<command> & cmds, const std::vector<reg_val> & regs)
+: commands(cmds), registers(regs), PC(0){
+    reg_name highest_reg_name = 0;
     for(command c : commands){
         if(c.instr != JMP){
             highest_reg_name = max(highest_reg_name, c.reg);
         }
     }
-    //this->registers.reserve(max(highest_reg_name + 1, registers.size()));
+    while(registers.size() <= highest_reg_name){
+        registers.push_back((reg_val)0);
+    }
 }
 
 
@@ -54,7 +56,7 @@ bool register_machine::do_step(){
         registers[reg] += 1;
         break;
     case DEC:
-        if(registers[reg] == 0){
+        if(registers[reg] == (reg_val)0){
             PC += 2;
             return true;
         }
