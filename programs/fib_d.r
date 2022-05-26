@@ -3,7 +3,6 @@ $clear 1
 $clear 2
 $clear 3
 $clear 4
-inc 2
 inc 3
 # fibplusone
 dec 0
