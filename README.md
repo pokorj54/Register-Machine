@@ -9,11 +9,13 @@ The register machine is a machine composed of integer registers and a program ma
 
 Four instructions are supported:
 - `inc r`: increments the value stored in register `r` by 1.
-- `dec r`: decrements the value stored in register `r` by 1.
+- `dec r`: decrements the value stored in register `r` by 1. If the current value is 0 then it increments the program counter by 2 instead of 1.
 - `print r`: prints the value stored in register `r`.
 - `jmp x`: changes the program counter by `x`.
 
 The program can be made only from these instructions, one per line, everything else is undefined behaviur. Programs in folder `programs` has to be preprocessed before running.
+
+The computation start with the first instruction, after execution of an instruction the program counter is incremented by 1. The program terminates when program counter points out of the program. For reusability of programs the program should end with the program counter pointing last line +1. 
 
 ## Preprocessor
 
