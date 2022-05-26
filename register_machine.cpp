@@ -10,6 +10,19 @@ T max(T a, T b){
     return ( a < b) ? b : a;
 }
 
+
+std::string instruction_to_string(instruction i){
+    switch (i)
+    {
+        case INC:       return "INC"; 
+        case DEC:       return "DEC";
+        case PRINT:     return "PRINT";
+        case JMP:       return "JMP";    
+    default:
+        throw "invalid instruction"; 
+    }
+}
+
 register_machine::register_machine(const std::vector<command> & commands, const std::vector<reg_val> & registers)
 : commands(commands), registers(registers), PC(0){
     reg_val highest_reg_name;
@@ -21,6 +34,13 @@ register_machine::register_machine(const std::vector<command> & commands, const 
     //this->registers.reserve(max(highest_reg_name + 1, registers.size()));
 }
 
+
+void register_machine::print_registers(std::ostream & os) const{
+    for(reg_val val : registers){
+        os <<  val << " ";
+    }
+    os << std::endl;
+}
 
 bool register_machine::do_step(){
     if(PC >= commands.size()){
@@ -53,12 +73,14 @@ bool register_machine::do_step(){
     return true;
 }
 
-void  register_machine::calculate(){
-    while(do_step());
-    for(reg_val val : registers){
-        std::cout <<  val << " ";
+void  register_machine::calculate(bool debug){
+    while(do_step()){
+        if(debug){
+            std::cerr << PC << "\t: "; 
+            print_registers(std::cerr);
+        }
     }
-    std::cout << std::endl;
+    print_registers(std::cout);
 }
 
 
