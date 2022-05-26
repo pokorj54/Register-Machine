@@ -16,6 +16,8 @@ def get_program(name):
 
 def program_replace_register(program, to_be_replaced, replacement):
     for i in range(len(program)):
+        if program[i][0]== 'j':
+            continue
         # dont accidentaly replace smaller register name
         program[i] = program[i].replace(' {} '.format(to_be_replaced), ' {} '.format(replacement))
         program[i] = program[i].replace(' {}\n'.format(to_be_replaced), ' {}\n'.format(replacement))
@@ -26,7 +28,11 @@ def expand_call(line):
     program = to_low_level(program)
     c = 0
     for register in items[1:]:
-        program_replace_register(program, c, register)
+        program_replace_register(program, c, '~{}~'.format(register))
+        c+= 1
+    c = 0
+    for register in items[1:]:
+        program_replace_register(program, '~{}~'.format(register), register)
         c+= 1
     return program
 
