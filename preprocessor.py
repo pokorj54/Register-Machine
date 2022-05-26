@@ -72,14 +72,18 @@ def to_low_level(program):
     expanded = expand_calls(program)
     return handle_labels(expanded)
 
-def translate_file(input_file, output_file):
+def preprocess_file(input_file, output_file):
     program = read_program(input_file)
     program = to_low_level(program)
     save_program(program, output_file)
 
+def main():
+    if len(sys.argv) != 3:
+        print("run this program as {} input_file output_file".format(sys.argv[0]))
+        exit(1)
 
-if len(sys.argv) != 3:
-    print("run this program as {} input_file output_file".format(sys.argv[0]))
-    exit(1)
+    preprocess_file(sys.argv[1], sys.argv[2])
 
-translate_file(sys.argv[1], sys.argv[2])
+
+if __name__ == "__main__":
+    main()
